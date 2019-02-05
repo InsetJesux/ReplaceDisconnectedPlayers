@@ -39,10 +39,10 @@ namespace ReplacingDisconnecteds
             //Events
             this.AddEventHandlers(new Events(this));
             //Configs
-            AddConfig(new ConfigSetting("sod_force_replace", "false", SettingType.STRING, true, "Force setting replace for all users"));
-            AddConfig(new ConfigSetting("sod_force_replace_value", "false", SettingType.STRING, true, "Force this value for all players, if sod_force_setting"));
-            AddConfig(new ConfigSetting("sod_dropitems", "true", SettingType.STRING, true, "Drop items if there are no spectators available"));
-            AddConfig(new ConfigSetting("sod_default_setting", "true", SettingType.STRING, true, "Default configuration for users who haven't changed it"));
+            AddConfig(new ConfigSetting("sod_force_replace", false, SettingType.BOOL, true, "Force setting replace for all users"));
+            AddConfig(new ConfigSetting("sod_force_replace_value", false, SettingType.BOOL, true, "Force this value for all players, if sod_force_setting"));
+            AddConfig(new ConfigSetting("sod_dropitems", true, SettingType.BOOL, true, "Drop items if there are no spectators available"));
+            AddConfig(new ConfigSetting("sod_default_setting", true, SettingType.BOOL, true, "Default configuration for users who haven't changed it"));
         }
 
         public void RefreshConfig()

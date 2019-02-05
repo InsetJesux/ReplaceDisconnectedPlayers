@@ -85,7 +85,6 @@ namespace ReplacingDisconnecteds
         {
             foreach (Player player in PlayerList)
             {
-                //Add Serpent's Hand exception
                 if ((player.IpAddress == "" || player.IpAddress == null) && (player.TeamRole.Role != Role.SPECTATOR || player.TeamRole.Role != Role.TUTORIAL))
                 {
                     return player;
@@ -96,7 +95,6 @@ namespace ReplacingDisconnecteds
 
         public Player SearchSpectator(List<Player> PlayerList)
         {
-            //Sustituir con el filtro nuevo en la siguiente actualización
             foreach (Player player in PlayerList)
             {
                 if (player.TeamRole.Role == Role.SPECTATOR)
@@ -104,10 +102,6 @@ namespace ReplacingDisconnecteds
                     if (plugin.ForceReplace)
                     {
                         if (plugin.ReplaceValue == true)
-                        {
-                            return player;
-                        }
-                        else
                         {
                             return player;
                         }
