@@ -11,7 +11,7 @@ sod_force_replace_value | Boolean | False | Force this value for all players, if
 sod_dropitems | Boolean | True | Drop items if there are no spectators available
 sod_default_setting | Boolean | True | Default configuration for users who haven't changed it
 
-## Commands
+## Client Commands
 Command | Description
 ------------ | -------------
 .sod enable | Enable user replace
