@@ -51,9 +51,6 @@ namespace ReplacingDisconnecteds
                 case "sod disable":
                     ev.ReturnMessage = DisablePlayerReplace(ev.Player);
                     break;
-                default:
-                    ev.ReturnMessage = "Invalid argument, try 'sod enable' or 'sod disable'";
-                    break;
             }
         }
 
@@ -71,6 +68,9 @@ namespace ReplacingDisconnecteds
             {
                 spectator.GiveItem(item.ItemType);
             }
+            spectator.SetAmmo(AmmoType.DROPPED_5, disconnected.GetAmmo(AmmoType.DROPPED_5));
+            spectator.SetAmmo(AmmoType.DROPPED_7, disconnected.GetAmmo(AmmoType.DROPPED_7));
+            spectator.SetAmmo(AmmoType.DROPPED_9, disconnected.GetAmmo(AmmoType.DROPPED_9));
         }
 
         public void DropItems(Player disconnected)
