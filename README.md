@@ -3,7 +3,7 @@
 
 Replace players who have been disconnected with spectators in the same position, health, items... (ammo not yet)
 
-
+## Configs
 Config Option | Value Type Header | Default Value | Description
 ------------ | ------------- | ------------- | -------------
 sod_force_replace | Boolean | False | Force setting replace for all users
