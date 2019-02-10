@@ -7,9 +7,10 @@ Replace players who have been disconnected with spectators in the same position,
 Config Option | Value Type | Default Value | Description
 ------------ | ------------- | ------------- | -------------
 sod_allow_user_choice | Boolean | True | While disabled force setting replace for all users
-sod_force_value | Boolean | False | Force this value for all players, if sod_allow_user_choice is false
+sod_force_value | Boolean | False | Force this value for all players, while sod_allow_user_choice is false
 sod_dropitems | Boolean | True | Drop items if there are no spectators available
 sod_default_setting | Boolean | True | Default configuration for users who haven't used .sod command
+sod_allow_tutorial_replace | Boolean | False | Allow tutorial players to be replaced
 
 ## Client Commands
 Command | Description

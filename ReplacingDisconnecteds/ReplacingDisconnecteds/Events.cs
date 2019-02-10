@@ -2,8 +2,10 @@
 using Smod2.API;
 using Smod2.EventHandlers;
 using Smod2.Events;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace ReplacingDisconnecteds
 {
@@ -32,10 +34,7 @@ namespace ReplacingDisconnecteds
 			if (SpectatorPlayer == null)
 			{
 				//Drop items
-				if (plugin.DropItems)
-				{
-					DropItems(DisconnectedPlayer);
-				}
+				if (plugin.DropItems) DropItems(DisconnectedPlayer);
 			}
 			else
 			{
@@ -90,8 +89,10 @@ namespace ReplacingDisconnecteds
 		{
 			foreach (Player player in PlayerList)
 			{
-				if ((player.IpAddress == "" || player.IpAddress == null) && (player.TeamRole.Role != Role.SPECTATOR || player.TeamRole.Role != Role.TUTORIAL))
+				if (player.IpAddress == "" || player.IpAddress == null)
 				{
+					if (player.TeamRole.Role == Role.SPECTATOR) continue;
+					if (player.TeamRole.Role == Role.TUTORIAL && !plugin.AllowTutorialReplace) continue;
 					return player;
 				}
 			}
@@ -100,23 +101,19 @@ namespace ReplacingDisconnecteds
 
 		public Player SearchSpectator(List<Player> PlayerList)
 		{
-			foreach (Player player in PlayerList)
+			Random rnd = new Random();
+
+			foreach (Player player in PlayerList.OrderBy((item) => rnd.Next()))
 			{
 				if (player.TeamRole.Role == Role.SPECTATOR)
 				{
 					if (!plugin.AllowUserChoice)
 					{
-						if (plugin.ForceValue == true)
-						{
-							return player;
-						}
+						if (plugin.ForceValue == true) return player;
 					}
 					else
 					{
-						if (ReadUserConfig(player) == true)
-						{
-							return player;
-						}
+						if (ReadUserConfig(player) == true) return player;
 					}
 				}
 			}
@@ -126,20 +123,10 @@ namespace ReplacingDisconnecteds
 		public bool ReadUserConfig(Player player)
 		{
 			//Default server config
-			if (!File.Exists($"{directory}/{player.SteamId}.txt"))
-			{
-				return plugin.DefaultSettings;
-			}
+			if (!File.Exists($"{directory}/{player.SteamId}.txt")) return plugin.DefaultSettings;
 
 			//Specific user config
-			if (File.ReadAllText($"{directory}/{player.SteamId}.txt") == "true")
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			return File.ReadAllText($"{directory}/{player.SteamId}.txt") == "true";
 		}
 
 		public string EnablePlayerReplace(Player player)
