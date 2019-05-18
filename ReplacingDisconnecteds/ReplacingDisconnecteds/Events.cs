@@ -105,7 +105,7 @@ namespace ReplacingDisconnecteds
 
 			foreach (Player player in PlayerList.OrderBy((item) => rnd.Next()))
 			{
-				if (player.TeamRole.Role == Role.SPECTATOR)
+				if (player.TeamRole.Role == Role.SPECTATOR && !player.OverwatchMode)
 				{
 					if (!plugin.AllowUserChoice)
 					{
