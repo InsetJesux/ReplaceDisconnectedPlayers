@@ -11,6 +11,8 @@ sod_force_value | Boolean | False | Force this value for all players, while sod_
 sod_dropitems | Boolean | True | Drop items if there are no spectators available
 sod_default_setting | Boolean | True | Default configuration for users who haven't used .sod command
 sod_allow_tutorial_replace | Boolean | False | Allow tutorial players to be replaced
+sod_broadcast_player | Boolean | True | If the player should get notified when he respawns<
+sod_broadcastmsg | String | You replaced a disconnected player | Message to be broadcasted to the player when replacing a disconnected player
 
 ## Client Commands
 Command | Description
