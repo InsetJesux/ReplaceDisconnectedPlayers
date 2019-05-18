@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace ReplacingDisconnecteds
 {
-	class Events : IEventHandlerDisconnect, IEventHandlerCallCommand, IEventHandlerWaitingForPlayers
+	class Events : IEventHandlerDisconnect, IEventHandlerCallCommand
 	{
 		public readonly string directory = "ReplacingDisconnecteds";
 
@@ -22,7 +22,7 @@ namespace ReplacingDisconnecteds
 
 		public void OnDisconnect(DisconnectEvent ev)
 		{
-			if (!plugin.AllowUserChoice && !plugin.DropItems && !plugin.ForceValue) return;
+			if (!plugin.allowUserChoice && !plugin.dropitems && !plugin.forceValue) return;
 
 			List<Player> Players = PluginManager.Manager.Server.GetPlayers();
 			Player SpectatorPlayer = SearchSpectator(Players);
@@ -34,7 +34,7 @@ namespace ReplacingDisconnecteds
 			if (SpectatorPlayer == null)
 			{
 				//Drop items
-				if (plugin.DropItems) DropItems(DisconnectedPlayer);
+				if (plugin.dropitems) DropItems(DisconnectedPlayer);
 			}
 			else
 			{
@@ -58,11 +58,6 @@ namespace ReplacingDisconnecteds
 			}
 		}
 
-		public void OnWaitingForPlayers(WaitingForPlayersEvent ev)
-		{
-			plugin.RefreshConfig();
-		}
-
 		public void ReplaceSpectator(Player spectator, Player disconnected)
 		{
 			spectator.ChangeRole(disconnected.TeamRole.Role, false, false, false, false);
@@ -75,6 +70,18 @@ namespace ReplacingDisconnecteds
 			spectator.SetAmmo(AmmoType.DROPPED_5, disconnected.GetAmmo(AmmoType.DROPPED_5));
 			spectator.SetAmmo(AmmoType.DROPPED_7, disconnected.GetAmmo(AmmoType.DROPPED_7));
 			spectator.SetAmmo(AmmoType.DROPPED_9, disconnected.GetAmmo(AmmoType.DROPPED_9));
+
+			if(disconnected.TeamRole.Role == Role.SCP_079)
+			{
+				spectator.Scp079Data.AP = disconnected.Scp079Data.AP;
+				spectator.Scp079Data.Level = disconnected.Scp079Data.Level;
+				spectator.Scp079Data.ExpToLevelUp = disconnected.Scp079Data.ExpToLevelUp;
+				spectator.Scp079Data.MaxAP = disconnected.Scp079Data.MaxAP;
+				spectator.Scp079Data.SpeakerAPPerSecond = disconnected.Scp079Data.SpeakerAPPerSecond;
+				spectator.Scp079Data.LockedDoorAPPerSecond = disconnected.Scp079Data.LockedDoorAPPerSecond;
+				spectator.Scp079Data.APPerSecond = disconnected.Scp079Data.APPerSecond;
+			}
+			if(plugin.broadcastPlayer) spectator.PersonalBroadcast(6, plugin.broadcastmsg, false);
 		}
 
 		public void DropItems(Player disconnected)
@@ -92,7 +99,7 @@ namespace ReplacingDisconnecteds
 				if (player.IpAddress == "" || player.IpAddress == null)
 				{
 					if (player.TeamRole.Role == Role.SPECTATOR) continue;
-					if (player.TeamRole.Role == Role.TUTORIAL && !plugin.AllowTutorialReplace) continue;
+					if (player.TeamRole.Role == Role.TUTORIAL && !plugin.allowTutorialReplace) continue;
 					return player;
 				}
 			}
@@ -107,9 +114,9 @@ namespace ReplacingDisconnecteds
 			{
 				if (player.TeamRole.Role == Role.SPECTATOR && !player.OverwatchMode)
 				{
-					if (!plugin.AllowUserChoice)
+					if (!plugin.allowUserChoice)
 					{
-						if (plugin.ForceValue == true) return player;
+						if (plugin.forceValue == true) return player;
 					}
 					else
 					{
@@ -123,7 +130,7 @@ namespace ReplacingDisconnecteds
 		public bool ReadUserConfig(Player player)
 		{
 			//Default server config
-			if (!File.Exists($"{directory}/{player.SteamId}.txt")) return plugin.DefaultSettings;
+			if (!File.Exists($"{directory}/{player.SteamId}.txt")) return plugin.defaultSetting;
 
 			//Specific user config
 			return File.ReadAllText($"{directory}/{player.SteamId}.txt") == "true";
