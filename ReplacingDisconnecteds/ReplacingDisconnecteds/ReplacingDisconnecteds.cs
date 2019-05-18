@@ -13,17 +13,33 @@ namespace ReplacingDisconnecteds
 		id = "insetjesux.replacing.disconnecteds",
 		version = "1.0",
 		SmodMajor = 3,
-		SmodMinor = 2,
-		SmodRevision = 2
+		SmodMinor = 4,
+		SmodRevision = 0,
+		configPrefix = "sod"
 		)]
 
 	public class ReplacingDisconnecteds : Plugin
 	{
-		public bool AllowUserChoice { get; set; }
-		public bool ForceValue { get; set; }
-		public bool DefaultSettings { get; set; }
-		public bool DropItems { get; set; }
-		public bool AllowTutorialReplace { get; set; }
+		[ConfigOption]
+		public bool allowUserChoice = true; // While disabled force setting replace for all users
+
+		[ConfigOption]
+		public bool forceValue = false; // Force this value for all players, while sod_allow_user_choice is false
+
+		[ConfigOption]
+		public bool dropitems = true; // Drop items if there are no spectators available
+
+		[ConfigOption]
+		public bool defaultSetting = true; // Default configuration for users who haven't changed it
+		
+		[ConfigOption]
+		public bool allowTutorialReplace = false; // Allow tutorial players to be replaced
+
+		[ConfigOption]
+		public bool broadcastPlayer = true; // If the player should get notified when he respawns
+
+		[ConfigOption]
+		public string broadcastmsg = "You replaced a disconnected player"; // Message to be broadcasted to the player when replacing a disconnected player
 
 		public override void OnDisable()
 		{
@@ -39,21 +55,6 @@ namespace ReplacingDisconnecteds
 		{
 			//Events
 			this.AddEventHandlers(new Events(this));
-			//Configs
-			AddConfig(new ConfigSetting("sod_allow_user_choice", true, SettingType.BOOL, true, "While disabled force setting replace for all users"));
-			AddConfig(new ConfigSetting("sod_force_value", false, SettingType.BOOL, true, "Force this value for all players, while sod_allow_user_choice is false"));
-			AddConfig(new ConfigSetting("sod_dropitems", true, SettingType.BOOL, true, "Drop items if there are no spectators available"));
-			AddConfig(new ConfigSetting("sod_default_setting", true, SettingType.BOOL, true, "Default configuration for users who haven't changed it"));
-			AddConfig(new ConfigSetting("sod_allow_tutorial_replace", false, SettingType.BOOL, true, "Allow tutorial players to be replaced"));
-		}
-
-		public void RefreshConfig()
-		{
-			AllowUserChoice = GetConfigBool("sod_allow_user_choice");
-			ForceValue = GetConfigBool("sod_force_value");
-			DefaultSettings = GetConfigBool("sod_default_setting");
-			DropItems = GetConfigBool("sod_dropitems");
-			AllowTutorialReplace = GetConfigBool("sod_allow_tutorial_replace");
 		}
 	}
 }

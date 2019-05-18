@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Smod2">
-      <HintPath>..\..\..\References\Smod2.dll</HintPath>
+      <HintPath>..\..\References\Smod2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
